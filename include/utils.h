@@ -11,6 +11,12 @@ struct Detection
     int classId{};
 };
 
+struct Classification
+{
+    float conf{};
+    int classId{};
+};
+
 namespace utils
 {
     size_t vectorProduct(const std::vector<int64_t>& vector);

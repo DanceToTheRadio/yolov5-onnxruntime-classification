@@ -36,3 +36,31 @@ private:
     cv::Size2f inputImageShape;
 
 };
+
+
+class YOLOClassifier
+{
+public:
+    explicit YOLOClassifier(std::nullptr_t) {};
+    YOLOClassifier(const std::string& modelPath,
+        const bool& isGPU,
+        const cv::Size& inputSize);
+
+    Classification classify(cv::Mat& image);
+
+private:
+    Ort::Env env{ nullptr };
+    Ort::SessionOptions sessionOptions{ nullptr };
+    Ort::Session session{ nullptr };
+
+    void preprocessing(cv::Mat& image, float*& blob, std::vector<int64_t>& inputTensorShape);
+
+    static void getBestClassInfo(std::vector<float>::iterator it, const int& numClasses,
+        float& bestConf, int& bestClassId);
+
+    std::vector<const char*> inputNames;
+    std::vector<const char*> outputNames;
+    bool isDynamicInputShape{};
+    cv::Size2f inputImageShape;
+
+};
